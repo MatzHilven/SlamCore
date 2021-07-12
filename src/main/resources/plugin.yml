@@ -1,0 +1,15 @@
+name: SlamCore
+version: ${project.version}
+main: me.matzhilven.slamcore.SlamCore
+api-version: 1.16
+depend: [ ProtocolLib ]
+authors: [ MatzHilven ]
+commands:
+  gems:
+    permission: core.gem
+
+permissions:
+    core.gem:
+      default: op
+    core.gem.admin:
+      default: op
