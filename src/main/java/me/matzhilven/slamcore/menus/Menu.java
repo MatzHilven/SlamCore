@@ -4,6 +4,7 @@ import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -11,10 +12,11 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class Menu implements InventoryHolder {
-    protected final SlamCore main = SlamCore.getInstance();
+    public final SlamCore main = SlamCore.getInstance();
+    public final FileConfiguration config = main.getConfig();
 
-    protected final Player p;
-    protected Inventory inventory;
+    public final Player p;
+    public Inventory inventory;
 
     public Menu(Player p) {
         this.p = p;
