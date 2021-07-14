@@ -77,7 +77,10 @@ public class ItemListener extends PacketAdapter {
 
         int blocksBroken = nbtItem.hasKey("blocks") ? nbtItem.getInteger("blocks") : 0;
         int level = nbtItem.hasKey("level") ? nbtItem.getInteger("level") : 1;
-        int nextBlocks = config.getInt("levels." + (level + 1) + ".blocks");
+
+        int exp = nbtItem.hasKey("exp") ? nbtItem.getInteger("exp") : 0;
+        int neededExp = config.getInt("levels." + (level + 1) + ".exp");
+        int prevExp = config.getInt("levels." + level + ".exp");
 
         ItemMeta meta = item.getItemMeta();
 
@@ -93,7 +96,7 @@ public class ItemListener extends PacketAdapter {
             i++;
         }
 
-        for (String s : StringUtils.colorize(config.getStringList("pickaxe-lore"))) {
+        for (String s : StringUtils.colorize(config.getStringList("pickaxe.lore"))) {
             if (s.contains("Enchant-")) {
                 int j = Integer.parseInt(Arrays.toString(s.split("%Enchant-")[1].split("%")).replace("[", "").replace("]", ""));
                 if (!enchants.containsKey(j - 1)) {
@@ -107,11 +110,19 @@ public class ItemListener extends PacketAdapter {
                 continue;
 
             lore.add(s
-                    .replace("%blocks%", String.valueOf(blocksBroken))
-                    .replace("%blocks_required%", String.valueOf(nextBlocks != 0 ? nextBlocks : blocksBroken))
+                    .replace("%blocks%", StringUtils.format(blocksBroken))
+                    .replace("%exp%", StringUtils.format(exp))
+                    .replace("%exp_required%", StringUtils.format(neededExp != 0 ? neededExp : exp))
                     .replace("%level%", String.valueOf(level))
-                    .replace("%progress%", getProgressBar(blocksBroken, nextBlocks)));
+                    .replace("%progress%", getProgressBar(exp, neededExp)));
         }
+
+        meta.setDisplayName(StringUtils.colorize(config.getString("pickaxe.name")
+                .replace("%blocks%", StringUtils.format(blocksBroken))
+                .replace("%exp%", StringUtils.format(exp))
+                .replace("%exp_required%", StringUtils.format(neededExp != 0 ? neededExp : exp))
+                .replace("%level%", String.valueOf(level))
+                .replace("%progress%", getProgressBar(exp, neededExp))));
 
         meta.setLore(lore);
         item.setItemMeta(meta);

@@ -1,4 +1,4 @@
-package me.matzhilven.slamcore.commands.gems;
+package me.matzhilven.slamcore.commands.levelpickaxe;
 
 import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.commands.SubCommand;
@@ -19,20 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GemsBaseCommand implements CommandExecutor, TabExecutor {
+public class LevelPickaxeBaseCommand implements CommandExecutor, TabExecutor {
 
     private final SlamCore main;
     private final Map<String, SubCommand> subCommands = new HashMap<>();
 
-    public GemsBaseCommand(SlamCore main) {
+    public LevelPickaxeBaseCommand(SlamCore main) {
         this.main = main;
-        main.getCommand("gems").setExecutor(this);
-        main.getCommand("gems").setTabCompleter(this);
+        main.getCommand("levelpick").setExecutor(this);
+        main.getCommand("levelpick").setTabCompleter(this);
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("core.gem")) {
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (!sender.hasPermission("core.levelpick")) {
             StringUtils.sendMessage(sender, Messager.INVALID_PERMISSION);
             return true;
         }
@@ -43,15 +43,14 @@ public class GemsBaseCommand implements CommandExecutor, TabExecutor {
                 return true;
             }
 
-            User user = main.getDatabaseHandler().getUserByPlayer((Player) sender);
-            StringUtils.sendMessage(sender, Messager.GEMS.replace("%gems%", StringUtils.format(user.getGems())));
+            StringUtils.sendMessage(sender, Messager.USAGE_PICKAXE);
             return true;
         }
 
         String subCommandString = args[0];
 
         if (!subCommands.containsKey(subCommandString)) {
-            StringUtils.sendMessage(sender, Messager.USAGE_GEMS);
+            StringUtils.sendMessage(sender, Messager.USAGE_PICKAXE);
             return true;
         }
 
@@ -72,35 +71,26 @@ public class GemsBaseCommand implements CommandExecutor, TabExecutor {
         subCommands.put(cmd, subCommand);
     }
 
-
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         ArrayList<String> cmds = new ArrayList<>();
-
         switch (args.length) {
             case 1:
                 cmds.add("give");
-                if (sender instanceof Player) {
-                    if (sender.isOp()) {
-                        cmds.add("set");
-                        cmds.add("remove");
-                        cmds.add("add");
-                    }
-                }
+                cmds.add("setlevel");
+                cmds.add("setblocks");
+                cmds.add("setexp");
 
                 return StringUtil.copyPartialMatches(args[0], cmds, new ArrayList<>());
             case 2:
                 cmds.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
                 return StringUtil.copyPartialMatches(args[1], cmds, new ArrayList<>());
-
             case 3:
                 cmds.add("1");
+                cmds.add("5");
                 cmds.add("10");
-                cmds.add("100");
-                cmds.add("1000");
                 return StringUtil.copyPartialMatches(args[2], cmds, new ArrayList<>());
         }
-
         return null;
     }
 }

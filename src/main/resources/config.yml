@@ -1,7 +1,9 @@
+# Database settings
 database:
   host: "95.217.194.15"
   port: 27017
 
+# General pickaxe menu settings
 pickaxe-menu:
   name: "&d&lUpgrade menu"
   slots: 45
@@ -11,6 +13,7 @@ pickaxe-menu:
       - " "
     material: "GRAY_STAINED_GLASS_PANE"
 
+# Pickaxe menu enchantment settings
 enchants:
   autoblock:
     refundable: true
@@ -284,22 +287,38 @@ enchants:
     increase: 5
     max-level: 10
 
-
 messages:
+#  General
   invalid-permission: "&cInvalid permissions!"
   invalid-sender: "&cYou cannot execute this command via the console!"
   invalid-target: "&cPlayer &l%player% &cnot found!"
   invalid-number: "&c&l%arg% &cis not a valid number!"
   incuffient-funds: "&cYou do not have enough tokens!"
-  usage:
-    - ""
-    - ""
-    - ""
-    - ""
+
+#  Usage
+  gems-usage:
+    - "&e&l------------- &dLevel &ePickaxe &dUsage &e&l-------------"
+    - "&7/gems"
+    - "&7/gems add <player> <gems>"
+    - "&7/gems give <player> <gems>"
+    - "&7/gems remove <player> <gems>"
+    - "&7/gems set <player> <gems>"
+  pickaxe-usage:
+    - "&e&l------------- &bGems &bUsage &e&l-------------"
+    - "&7/levelpickaxe give <player>"
+    - "&7/levelpickaxe setlevel <player> <level>"
+    - "&7/levelpickaxe setblocks <player> <blocks>"
+    - "&7/levelpickaxe setexp <player> <exp>"
   set-gems-usage: "&cUsage: /gems set <player> <amount>"
   add-gems-usage: "&cUsage: /gems add <player> <amount>"
   remove-gems-usage: "&cUsage: /gems remove <player> <amount>"
   give-gems-usage: "&cUsage: /gems give <player> <amount>"
+  give-pickaxe-usage: "&cUsage: /levelpick give <player>"
+  set-blocks-usage: "&cUsage: /levelpick setblocks <player> <blocks>"
+  set-level-usage: "&cUsage: /levelpick setlevel <player> <level>"
+  set-exp-usage: "&cUsage: /levelpick setexp <player> <level>"
+
+#  Gems
   gems: "&7You currently have &d%gems% &7gems!"
   set-gems: "&7Your gems have been set to &d%gems%&7!"
   set-gems-sender: "&7Set gems of %target% to &d%gems%&7!"
@@ -310,46 +329,90 @@ messages:
   give-gems: "&7You have given %target% &d%gems% &7gems!"
   receive-gems: "&7You have received &d%gems% &7gems from %sender%!"
 
+#  Pickaxe
+  give-pickaxe: "&7You have given %target% a level pickaxe!"
+  receive-pickaxe: "&7You have received a level pickaxe!"
+  reset-pickaxe: "&7Your level pickaxe has been reset!"
+  reset-pickaxe-sender: "&7You have reset %target%'s level pickaxe!"
+  set-level: "&7The level of your pickaxe has been set to &d%level%&7!"
+  set-level-sender: "&7Set level of %target%'s pickaxe to &d%level%&7!"
+  set-blocks: "&7The amount of broken blocks of your pickaxe has been set to &d%blocks%&7!"
+  set-blocks-sender: "&7Set broken blocks of %target%'s pickaxe to &d%blocks%&7!"
+  set-exp: "&7The exp of your pickaxe has been set to &d%exp%&7!"
+  set-exp-sender: "&7Set exp of %target%'s pickaxe to &d%exp%&7!"
+
+# Progress bar for lore pickaxe
 progress:
-  not-completed: "&3"
-  completed: "&4"
-  bars: 10
+  not-completed: "&d"
+  completed: "&5"
+  bars: 20
   char: '|'
 
-pickaxe-lore:
-  - ''
-  - '&e&lStatistics'
-  - '&e▎ &fBlocks Mined: &b%blocks%/%blocks_required%'
-  - '&e▎ &fPickaxe Level: &b%level% &7[%progress%&7]'
-  - ''
-  - '&c&lEnchantments'
-  - '&c▎ %Enchant-1%'
-  - '&c▎ %Enchant-2%'
-  - '&c▎ %Enchant-3%'
-  - '&c▎ %Enchant-4%'
-  - '&c▎ %Enchant-5%'
-  - '&c▎ %Enchant-6%'
-  - '&c▎ %Enchant-7%'
-  - '&c▎ %Enchant-8%'
-  - '&c▎ %Enchant-9%'
-  - '&c▎ %Enchant-10%'
-  - '&c▎ %Enchant-11%'
-  - '&c▎ %Enchant-12%'
-  - '&c▎ %Enchant-13%'
-  - '&c▎ %Enchant-14%'
-  - '&c▎ %Enchant-15%'
-  - '&c▎ %Enchant-16%'
-  - '&c▎ %Enchant-17%'
-  - '&c▎ %Enchant-18%'
-  - '&c▎ %Enchant-19%'
-  - '&c▎ %Enchant-20%'
+pickaxe:
+  name: "&d&lLevel Pickaxe &7[%progress%&7]"
+  lore:
+    - ''
+    - '&d&lStatistics'
+    - '&d▎ &fBlocks Mined: &d%blocks%'
+    - '&d▎ &fPickaxe Exp: &d%exp%/%exp_required%'
+    - '&d▎ &fPickaxe Level: &d%level% &7[%progress%&7]'
+    - ''
+    - '&c&lEnchantments'
+    - '&c▎ %Enchant-1%'
+    - '&c▎ %Enchant-2%'
+    - '&c▎ %Enchant-3%'
+    - '&c▎ %Enchant-4%'
+    - '&c▎ %Enchant-5%'
+    - '&c▎ %Enchant-6%'
+    - '&c▎ %Enchant-7%'
+    - '&c▎ %Enchant-8%'
+    - '&c▎ %Enchant-9%'
+    - '&c▎ %Enchant-10%'
+    - '&c▎ %Enchant-11%'
+    - '&c▎ %Enchant-12%'
+    - '&c▎ %Enchant-13%'
+    - '&c▎ %Enchant-14%'
+    - '&c▎ %Enchant-15%'
 
+# Exp per block
+blocks:
+  STONE: 10
+
+# Pickaxe Levels
 levels:
   2:
-    blocks: 10
+    exp: 10
     rewards:
       - "give %player% stone"
   3:
-    blocks: 25
+    exp: 25
+    rewards:
+      - "give %player% emerald"
+  4:
+    exp: 50
+    rewards:
+      - "give %player% emerald"
+  5:
+    exp: 75
+    rewards:
+      - "give %player% emerald"
+  6:
+    exp: 100
+    rewards:
+      - "give %player% stone"
+  7:
+    exp: 150
+    rewards:
+      - "give %player% emerald"
+  8:
+    exp: 250
+    rewards:
+      - "give %player% emerald"
+  9:
+    exp: 500
+    rewards:
+      - "give %player% emerald"
+  10:
+    exp: 1000
     rewards:
       - "give %player% emerald"

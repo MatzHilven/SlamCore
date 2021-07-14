@@ -13,11 +13,18 @@ public class Messager {
     public static final String INVALID_NUMBER = SlamCore.getInstance().getConfig().getString("messages.invalid-number");
     public static final String INSUFFICIENT_FUNDS = SlamCore.getInstance().getConfig().getString("messages.insufficient-funds");
 
-    public static final List<String> USAGE = SlamCore.getInstance().getConfig().getStringList("messages.usage");
+    public static final List<String> USAGE_GEMS = SlamCore.getInstance().getConfig().getStringList("messages.gems-usage");
+    public static final List<String> USAGE_PICKAXE = SlamCore.getInstance().getConfig().getStringList("messages.pickaxe-usage");
     public static final String SET_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.set-gems-usage");
     public static final String ADD_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.add-gems-usage");
     public static final String REMOVE_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.remove-gems-usage");
     public static final String GIVE_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.give-gems-usage");
+
+    public static final String GIVE_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.give-pickaxe-usage");
+    public static final String RESET_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.reset-pickaxe-usage");
+    public static final String SET_BLOCKS_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.set-blocks-usage");
+    public static final String SET_LEVEL_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.set-level-usage");
+    public static final String SET_EXP_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.set-exp-usage");
 
     public static final String GEMS = SlamCore.getInstance().getConfig().getString("messages.gems");
     public static final String SET_GEMS = SlamCore.getInstance().getConfig().getString("messages.set-gems");
@@ -28,5 +35,17 @@ public class Messager {
     public static final String REMOVE_GEMS_SENDER = SlamCore.getInstance().getConfig().getString("messages.remove-gems-sender");
     public static final String GIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.give-gems");
     public static final String RECEIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.receive-gems");
+
+
+    public static final String GIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.give-pickaxe");
+    public static final String RECEIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.receive-pickaxe");
+    public static final String RESET_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.reset-pickaxe");
+    public static final String RESET_PICKAXE_SENDER = SlamCore.getInstance().getConfig().getString("messages.reset-pickaxe-sender");
+    public static final String SET_LEVEL = SlamCore.getInstance().getConfig().getString("messages.set-level");
+    public static final String SET_LEVEL_SENDER = SlamCore.getInstance().getConfig().getString("messages.set-level-sender");
+    public static final String SET_BLOCKS = SlamCore.getInstance().getConfig().getString("messages.set-blocks");
+    public static final String SET_BLOCKS_SENDER = SlamCore.getInstance().getConfig().getString("messages.set-blocks-sender");
+    public static final String SET_EXP = SlamCore.getInstance().getConfig().getString("messages.set-exp");
+    public static final String SET_EXP_SENDER = SlamCore.getInstance().getConfig().getString("messages.set-exp-sender");
 
 }

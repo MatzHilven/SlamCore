@@ -93,44 +93,45 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
 
         if (p.getInventory().getItemInMainHand().getType() == org.bukkit.Material.AIR) return;
-
-
         Block b = e.getBlock();
         boolean cancel = false;
 
-        if (cancel) return;
-
         NBTItem nbtItem = new NBTItem(p.getInventory().getItemInMainHand());
 
-        if (!nbtItem.hasKey("blocks")) {
-            nbtItem.setInteger("blocks", 0);
-            nbtItem.setInteger("level", 1);
-        }
+        if (!nbtItem.hasKey("levelpick")) return;
+
+        if (cancel) return;
+
+        int blockExp = config.getInt("blocks." + b.getType(), 1);
 
         int level = nbtItem.getInteger("level");
         int brokenBlocks = nbtItem.getInteger("blocks");
-        int neededBlocks = main.getConfig().getInt("levels." + (level + 1) + ".blocks");
 
-        if (neededBlocks != 0) {
-            nbtItem.setInteger("blocks", brokenBlocks + 1);
+        int exp = nbtItem.getInteger("exp");
+        int neededExp = main.getConfig().getInt("levels." + (level + 1) + ".exp");
 
-            if (brokenBlocks + 1 >= neededBlocks) {
+        nbtItem.setInteger("blocks", brokenBlocks + 1);
+
+        if (neededExp != 0) {
+            if (exp + blockExp >= neededExp) {
+                nbtItem.setInteger("exp", ((exp+ blockExp) - neededExp));
                 nbtItem.setInteger("level", level + 1);
+
                 ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
                 main.getConfig().getStringList("levels." + (level + 1) + ".rewards").forEach(cmd -> {
                     Bukkit.dispatchCommand(console, cmd.replace("%player%", p.getName()));
                 });
+            } else {
+                nbtItem.setInteger("exp", exp + blockExp);
             }
         }
 
         p.getInventory().setItemInMainHand(nbtItem.getItem());
-
-        setAir(b.getWorld(), b.getX(), b.getY() - 2, b.getZ());
     }
 
-    public static void setAir(World world, int x, int y, int z) {
-        net.minecraft.server.v1_16_R3.World nmsWorld = ((CraftWorld) world).getHandle();
-        BlockPosition bp = new BlockPosition(x, y, z);
+    public static void setAir(Location loc) {
+        net.minecraft.server.v1_16_R3.World nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+        BlockPosition bp = new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
         IBlockData ibd = net.minecraft.server.v1_16_R3.Block.getByCombinedId(0);
         nmsWorld.setTypeAndData(bp, ibd, 2);
     }

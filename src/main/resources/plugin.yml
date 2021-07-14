@@ -7,9 +7,15 @@ authors: [ MatzHilven ]
 commands:
   gems:
     permission: core.gem
+  levelpick:
+    permission: core.levelpick
+    aliases:
+      - levelpickaxe
 
 permissions:
-    core.gem:
-      default: op
-    core.gem.admin:
-      default: op
+  core.gem:
+    default: op
+  core.gem.admin:
+    default: op
+  core.levelpick:
+    default: op

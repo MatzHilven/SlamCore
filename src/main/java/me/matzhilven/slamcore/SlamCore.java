@@ -7,6 +7,8 @@ import me.matzhilven.slamcore.commands.gems.subcommands.GemsAddSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsGiveSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsRemoveSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsSetSubCommand;
+import me.matzhilven.slamcore.commands.levelpickaxe.LevelPickaxeBaseCommand;
+import me.matzhilven.slamcore.commands.levelpickaxe.subcommands.*;
 import me.matzhilven.slamcore.data.DatabaseHandler;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
 import me.matzhilven.slamcore.listeners.InventoryListeners;
@@ -47,6 +49,12 @@ public final class SlamCore extends JavaPlugin {
         gemsBaseCommand.registerSubCommand("remove", new GemsRemoveSubCommand(this));
         gemsBaseCommand.registerSubCommand("set", new GemsSetSubCommand(this));
 
+        LevelPickaxeBaseCommand levelPickaxeBaseCommand = new LevelPickaxeBaseCommand(this);
+        levelPickaxeBaseCommand.registerSubCommand("give", new LPGiveSubCommand());
+        levelPickaxeBaseCommand.registerSubCommand("reset", new LPResetSubCommand());
+        levelPickaxeBaseCommand.registerSubCommand("setblocks", new LPSetBlocksSubCommand());
+        levelPickaxeBaseCommand.registerSubCommand("setexp", new LPSetExpSubCommand(this));
+        levelPickaxeBaseCommand.registerSubCommand("setlevel", new LPSetLevelSubCommand());
     }
 
     @Override
