@@ -80,7 +80,6 @@ public class ItemListener extends PacketAdapter {
 
         int exp = nbtItem.hasKey("exp") ? nbtItem.getInteger("exp") : 0;
         int neededExp = config.getInt("levels." + (level + 1) + ".exp");
-        int prevExp = config.getInt("levels." + level + ".exp");
 
         ItemMeta meta = item.getItemMeta();
 
@@ -92,7 +91,11 @@ public class ItemListener extends PacketAdapter {
 
         int i = 0;
         for (Map.Entry<Enchantment, Integer> entry : item.getItemMeta().getEnchants().entrySet()) {
-            enchants.put(i, StringUtils.colorize("&7" + entry.getKey().getKey().getKey() + " " + entry.getValue()));
+            if (entry.getKey().getName().equals("DIG_SPEED")) {
+                enchants.put(i, StringUtils.colorize("&7Efficiency " + entry.getValue()));
+            } else {
+                enchants.put(i, StringUtils.colorize("&7" + entry.getKey().getName() + " " + entry.getValue()));
+            }
             i++;
         }
 

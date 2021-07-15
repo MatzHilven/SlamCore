@@ -26,6 +26,7 @@ public class PrisonEnchants {
     public static final PrisonEnchant LASER = new LaserEnchant();
     public static final PrisonEnchant LIGHTNING = new LightningEnchant();
     public static final PrisonEnchant SPEED = new SpeedEnchant();
+    public static final PrisonEnchant TELEPATHY = new TelepathyEnchant();
 
     public static void registerEnchants() {
 
@@ -44,7 +45,7 @@ public class PrisonEnchants {
         enchants.put("laser", LASER);
         enchants.put("lightning", LIGHTNING);
         enchants.put("speed", SPEED);
-
+        enchants.put("telepathy", TELEPATHY);
 
         try {
             Field acceptingNew = Enchantment.class.getDeclaredField("acceptingNew");

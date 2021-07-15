@@ -12,6 +12,7 @@ public class Messager {
     public static final String INVALID_TARGET = SlamCore.getInstance().getConfig().getString("messages.invalid-target");
     public static final String INVALID_NUMBER = SlamCore.getInstance().getConfig().getString("messages.invalid-number");
     public static final String INSUFFICIENT_FUNDS = SlamCore.getInstance().getConfig().getString("messages.insufficient-funds");
+    public static final String INVENTORY_FULL = SlamCore.getInstance().getConfig().getString("messages.inventory-full");
 
     public static final List<String> USAGE_GEMS = SlamCore.getInstance().getConfig().getStringList("messages.gems-usage");
     public static final List<String> USAGE_PICKAXE = SlamCore.getInstance().getConfig().getStringList("messages.pickaxe-usage");
@@ -19,6 +20,7 @@ public class Messager {
     public static final String ADD_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.add-gems-usage");
     public static final String REMOVE_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.remove-gems-usage");
     public static final String GIVE_GEMS_USAGE = SlamCore.getInstance().getConfig().getString("messages.give-gems-usage");
+    public static final String GIVE_MINEBOMB_USAGE = SlamCore.getInstance().getConfig().getString("messages.give-minebomb-usage");
 
     public static final String GIVE_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.give-pickaxe-usage");
     public static final String RESET_PICKAXE_USAGE = SlamCore.getInstance().getConfig().getString("messages.reset-pickaxe-usage");
@@ -35,7 +37,7 @@ public class Messager {
     public static final String REMOVE_GEMS_SENDER = SlamCore.getInstance().getConfig().getString("messages.remove-gems-sender");
     public static final String GIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.give-gems");
     public static final String RECEIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.receive-gems");
-
+    public static final String GEM_CHANCE = SlamCore.getInstance().getConfig().getString("messages.gem-chance");
 
     public static final String GIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.give-pickaxe");
     public static final String RECEIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.receive-pickaxe");

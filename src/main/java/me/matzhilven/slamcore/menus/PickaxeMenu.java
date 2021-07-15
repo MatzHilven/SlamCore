@@ -1,13 +1,17 @@
 package me.matzhilven.slamcore.menus;
 
-import de.tr7zw.nbtapi.NBTItem;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
 import me.matzhilven.slamcore.utils.ItemBuilder;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 
@@ -33,6 +37,54 @@ public class PickaxeMenu extends Menu {
 
     @Override
     public void handleClick(InventoryClickEvent e) {
+        if (!slots.containsKey(e.getSlot())) return;
+
+
+        Enchantment enchantment = slots.get(e.getSlot());
+
+        ItemMeta meta = pickaxe.getItemMeta();
+
+        meta.addEnchant(enchantment, meta.getEnchantLevel(enchantment) + 1, true);
+
+        pickaxe.setItemMeta(meta);
+
+        p.getInventory().setItemInMainHand(pickaxe);
+        setMenuItems();
+
+
+        if (meta.hasEnchant(PrisonEnchants.JUMP)) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, meta.getEnchantLevel(PrisonEnchants.JUMP)));
+        } else {
+            if (p.hasPotionEffect(PotionEffectType.JUMP)) {
+                p.removePotionEffect(PotionEffectType.JUMP);
+            }
+        }
+
+        if (meta.hasEnchant(PrisonEnchants.HASTE)) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, meta.getEnchantLevel(PrisonEnchants.HASTE)));
+        } else {
+            if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
+                p.removePotionEffect(PotionEffectType.FAST_DIGGING);
+            }
+        }
+
+        if (meta.hasEnchant(PrisonEnchants.SPEED)) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, meta.getEnchantLevel(PrisonEnchants.SPEED)));
+        } else {
+            if (p.hasPotionEffect(PotionEffectType.SPEED)) {
+                p.removePotionEffect(PotionEffectType.SPEED);
+            }
+        }
+
+        if (meta.hasEnchant(PrisonEnchants.FLIGHT)) {
+            p.setAllowFlight(true);
+            p.setFlying(true);
+        } else {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+                p.setAllowFlight(false);
+                p.setFlying(false);
+            }
+        }
 
     }
 
@@ -50,10 +102,12 @@ public class PickaxeMenu extends Menu {
 
             int maxLevel = config.getInt("enchants." + enchant + ".max-level");
 
-            double chance = (int) ((level * config.getDouble("enchants." + enchant + ".chance")) * 100);
+            System.out.println(enchant + " " + maxLevel);
+
+            double chance = (int) ((level * config.getDouble("enchants." + enchant + ".chance", 1)) * 100);
 
             int cP = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".price");
-            int incr = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".increase");
+            int incr = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".increase", 0);
 
             inventory.setItem(config.getInt("enchants." + enchant + ".slot"),
                     new ItemBuilder(material)
@@ -65,10 +119,12 @@ public class PickaxeMenu extends Menu {
                                     String.valueOf(maxLevel))
                             .replace("%chance%",
                                     String.valueOf(chance))
-                            .replace("%price-1%",
+                            .replace("%price%",
                                     String.valueOf(cP + level * incr))
+                            .replace("%state%", level == maxLevel ? "Unlocked" : "Locked")
+                            .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                             .toItemStack()
-                    );
+            );
 
             slots.put(config.getInt("enchants." + enchant + ".slot"), enchantment);
         });

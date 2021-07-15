@@ -26,7 +26,8 @@ public class LevelPickaxe {
 
         ItemStack pickaxe = nbtItem.getItem();
         ItemMeta meta = pickaxe.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setUnbreakable(true);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
         pickaxe.setItemMeta(meta);
 
         return pickaxe;

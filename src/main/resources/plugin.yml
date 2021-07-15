@@ -2,7 +2,7 @@ name: SlamCore
 version: ${project.version}
 main: me.matzhilven.slamcore.SlamCore
 api-version: 1.16
-depend: [ ProtocolLib ]
+depend: [ ProtocolLib, Mines ]
 authors: [ MatzHilven ]
 commands:
   gems:
@@ -11,6 +11,10 @@ commands:
     permission: core.levelpick
     aliases:
       - levelpickaxe
+  givebomb:
+    permission: core.minebomb
+    aliases:
+      - gb
 
 permissions:
   core.gem:
@@ -18,4 +22,6 @@ permissions:
   core.gem.admin:
     default: op
   core.levelpick:
+    default: op
+  core.minebomb:
     default: op

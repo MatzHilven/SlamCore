@@ -6,7 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class PrisonEnchant extends Enchantment {
+public abstract class PrisonEnchant extends Enchantment {
 
     private final SlamCore main = SlamCore.getInstance();
 

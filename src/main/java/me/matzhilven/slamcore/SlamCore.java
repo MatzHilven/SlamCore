@@ -9,6 +9,7 @@ import me.matzhilven.slamcore.commands.gems.subcommands.GemsRemoveSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsSetSubCommand;
 import me.matzhilven.slamcore.commands.levelpickaxe.LevelPickaxeBaseCommand;
 import me.matzhilven.slamcore.commands.levelpickaxe.subcommands.*;
+import me.matzhilven.slamcore.commands.minebomb.MineBombCommand;
 import me.matzhilven.slamcore.data.DatabaseHandler;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
 import me.matzhilven.slamcore.listeners.InventoryListeners;
@@ -55,6 +56,8 @@ public final class SlamCore extends JavaPlugin {
         levelPickaxeBaseCommand.registerSubCommand("setblocks", new LPSetBlocksSubCommand());
         levelPickaxeBaseCommand.registerSubCommand("setexp", new LPSetExpSubCommand(this));
         levelPickaxeBaseCommand.registerSubCommand("setlevel", new LPSetLevelSubCommand());
+
+        new MineBombCommand(this);
     }
 
     @Override

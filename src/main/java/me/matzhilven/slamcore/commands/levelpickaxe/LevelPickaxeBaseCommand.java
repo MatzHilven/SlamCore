@@ -77,6 +77,7 @@ public class LevelPickaxeBaseCommand implements CommandExecutor, TabExecutor {
         switch (args.length) {
             case 1:
                 cmds.add("give");
+                cmds.add("reset");
                 cmds.add("setlevel");
                 cmds.add("setblocks");
                 cmds.add("setexp");

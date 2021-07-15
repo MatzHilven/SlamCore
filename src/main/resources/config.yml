@@ -12,6 +12,24 @@ pickaxe-menu:
     lore:
       - " "
     material: "GRAY_STAINED_GLASS_PANE"
+  settings:
+    material: "REDSTONE_TORCH"
+    name: "&c&lSettings"
+    slot: 44
+    lore:
+      - "&7Click to open the settings menu."
+  gembank:
+    material: "SUNFLOWER"
+    name: "&d&lGemBank"
+    slot: 36
+    lore:
+      - "&7Click to open the gembank."
+
+minebomb:
+  name: "&d&lMineBomb"
+  lore:
+    - "&7Drop in mine"
+    - "&7to boom."
 
 # Pickaxe menu enchantment settings
 enchants:
@@ -19,11 +37,11 @@ enchants:
     refundable: true
     name: "&a&lAutoBlock"
     lore:
-      - "&7Automatically creates"
-      - "&7blocks from ingots."
+      - "&8» &7Automatically creates"
+      - "&8» &7blocks from ingots."
       - ""
       - "&aCurrent state:"
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&aPrice: &7250 gems"
       - ""
@@ -32,97 +50,87 @@ enchants:
       - "&cfor this enchantment to work."
     slot: 21
     material: IRON_BLOCK
-    chance: 0.005
     price: 10
-    increase: 5
-    max-level: 100
+    max-level: 1
   autodeposit:
     refundable: true
     name: "&e&lAutoDeposit"
     lore:
       - ""
-      - "&7Automatically deposits"
-      - "&7your gems into"
-      - "&7your bank account."
+      - "&8» &7Automatically deposits"
+      - "&8» &7your gems into"
+      - "&8» &7your bank account."
       - ""
       - "&eCurrent state: "
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&c&lNote: &r&cyou must have the"
       - "&cGemChance enchantment in order"
       - "&cfor this enchantment to work."
     slot: 13
     material: HOPPER_MINECART
-    chance: 0.005
     price: 10
-    increase: 5
-    max-level: 100
+    max-level: 1
   autominer:
     refundable: true
     name: "&a&lAutoMiner"
     lore:
-      - "&7Automatically makes you money"
-      - "&7with the fortune level on your pickaxe."
-      - "&7Go to /warp autominer to start!"
+      - "&8» &7Automatically makes you money"
+      - "&8» &7with the fortune level on your pickaxe."
+      - "&8» &7Go to /warp autominer to start!"
       - ""
       - "&aCurrent state:"
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&aPrice: &71000 gems"
     slot: 40
     material: STONECUTTER
-    chance: 0.005
     price: 10
-    increase: 5
-    max-level: 100
+    max-level: 1
   autosell:
     refundable: true
     name: "&a&lAutoSell"
     lore:
-      - "&7Automatically sells"
-      - "&7your inventory when"
-      - "&7it's full."
+      - "&8» &7Automatically sells"
+      - "&8» &7your inventory when"
+      - "&8» &7it's full."
       - ""
       - "&aCurrent state:"
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&aPrice: &7500 gems"
     slot: 24
     material: PAPER
-    chance: 0.005
     price: 10
-    increase: 5
     max-level: 1
   autosmelt:
     refundable: true
     name: "&9&lAutoSmelt"
     lore:
-      - "&7Automatically smelts"
-      - "&7ores into ingots."
+      - "&8» &7Automatically smelts"
+      - "&8» &7ores into ingots."
       - ""
       - "&9Current state:"
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&9Price: &7150 gems"
     slot: 23
     material: BLAST_FURNACE
-    chance: 0.005
     price: 10
-    increase: 5
     max-level: 1
   explosive:
     refundable: true
     name: "&c&lExplosive"
     lore:
-      - "&7Gives a chance of"
-      - "&7creating an explosion at"
-      - "&7the broken block."
+      - "&8» &7Gives a chance of"
+      - "&8» &7creating an explosion at"
+      - "&8» &7the broken block."
       - ""
       - "&cCurrent level:"
-      - "&7%level%"
+      - "&8» &7%level%"
       - ""
       - "&cCurrent chance: "
-      - "&7%chance%%"
+      - "&8» &7%chance%%"
       - ""
       - "&cPrice: &7%price%"
     slot: 31
@@ -135,33 +143,31 @@ enchants:
     refundable: true
     name: "&b&lFlight"
     lore:
-      - "&7Gives infinite"
-      - "&7flight while holding"
-      - "&7your pickaxe."
+      - "&8» &7Gives infinite"
+      - "&8» &7flight while holding"
+      - "&8» &7your pickaxe."
       - ""
       - "&bCurrent state:"
-      - "&7%state%"
+      - "&8» &7%state%"
       - ""
       - "&bPrice: &7250 gems"
     slot: 32
     material: ELYTRA
-    chance: 0.005
     price: 10
-    increase: 5
     max-level: 1
   gemchance:
     refundable: true
     name: "&d&lGemChance"
     lore:
-      - "&7Increases the chance"
-      - "&7of receiving a Gem while"
-      - "&7mining."
+      - "&8» &7Increases the chance"
+      - "&8» &7of receiving a Gem while"
+      - "&8» &7mining."
       - ""
       - "&dCurrent level:"
-      - "&7%level%"
+      - "&8» &7%level%"
       - ""
       - "&dCurrent chance: "
-      - "&7%chance%%"
+      - "&8» &7%chance%%"
       - ""
       - "&dPrice: &7%price%"
     slot: 22
@@ -170,12 +176,28 @@ enchants:
     price: 10
     increase: 5
     max-level: 100
+    gem:
+      material: SUNFLOWER
+      name: "&d&lGem"
+      lore:
+        - "&8» &7You can use Gems to"
+        - "&8» &7buy special in-game items at"
+        - "&8» &7/shop or by right-clicking"
+        - "&8» &7your pickaxe"
   haste:
     refundable: true
     name: "Haste"
     lore:
       - "lore1"
       - "lore2"
+      - ""
+      - "&6Current level: "
+      - "&8» &7%level%"
+      - ""
+      - "&6Current chance: "
+      - "&8» &7%chance%%"
+      - ""
+      - "&6Price: &7%price%"
     slot: 0
     material: GOLDEN_PICKAXE
     chance: 0.005
@@ -186,16 +208,17 @@ enchants:
     refundable: true
     name: "&b&lJackHammer"
     lore:
-      - "&7Gives a small chance to"
-      - "&7remove a complete horizontal layer"
-      - "&7from a mine."
+      - "&8» &7Gives a small chance to"
+      - "&8» &7remove a complete horizontal layer"
+      - "&8» &7from a mine."
       - " "
       - "&bCurrent level: "
-      - "&7%level%"
+      - "&8» &7%level%"
       - " "
       - "&bCurrent chance: "
-      - "&7%chance%%"
+      - "&8» &7%chance%%"
       - " "
+      - "&bPrice: &7%price%"
     slot: 12
     material: DIAMOND_PICKAXE
     chance: 0.005
@@ -208,6 +231,14 @@ enchants:
     lore:
       - "lore1"
       - "lore2"
+      - ""
+      - "&6Current level: "
+      - "&8» &7%level%"
+      - ""
+      - "&6Current chance: "
+      - "&8» &7%chance%%"
+      - ""
+      - "&6Price: &7%price%"
     slot: 1
     material: RABBIT_FOOT
     chance: 0.005
@@ -218,15 +249,15 @@ enchants:
     refundable: true
     name: "&d&lKeyfinder"
     lore:
-      - "&7Increases the chance"
-      - "&7of receiving a crate key"
-      - "&7while mining."
+      - "&8» &7Increases the chance"
+      - "&8» &7of receiving a crate key"
+      - "&8» &7while mining."
       - ""
       - "&dCurrent level:"
-      - "&7%level%"
+      - "&8» &7%level%"
       - ""
       - "&dCurrent chance: "
-      - "&7%chance%%"
+      - "&8» &7%chance%%"
       - ""
       - "&dPrice: &7%price%"
     slot: 14
@@ -235,19 +266,23 @@ enchants:
     price: 10
     increase: 5
     max-level: 100
+    commands:
+      - "cc give p Factory 1 %player% ; 0.05"
+      - "cc give p Factory 1 %player% ; 0.1"
+      - "cc give p Factory 1 %player% ; 0.5"
   laser:
     refundable: true
     name: "&6&lLaser"
     lore:
-      - "&7Gives a small chance to"
-      - "&7remove a complete vertical layer"
-      - "&7from a mine."
+      - "&8» &7Gives a small chance to"
+      - "&8» &7remove a complete vertical layer"
+      - "&8» &7from a mine."
       - ""
       - "&6Current level: "
-      - "&7%level%"
+      - "&8» &7%level%"
       - ""
       - "&6Current chance: "
-      - "&7%chance%%"
+      - "&8» &7%chance%%"
       - ""
       - "&6Price: &7%price%"
     slot: 4
@@ -262,6 +297,14 @@ enchants:
     lore:
       - "lore1"
       - "lore2"
+      - ""
+      - "&6Current level: "
+      - "&8» &7%level%"
+      - ""
+      - "&6Current chance: "
+      - "&8» &7%chance%%"
+      - ""
+      - "&6Price: &7%price%"
     slot: 2
     material: BONE
     chance: 0.005
@@ -272,12 +315,12 @@ enchants:
     refundable: true
     name: "&9&lWalking Speed"
     lore:
-      - "&7Gives infinite"
-      - "&7walking speed while"
-      - "&7holding your pickaxe."
+      - "&8» &7Gives infinite"
+      - "&8» &7walking speed while"
+      - "&8» &7holding your pickaxe."
       - ""
       - "&9Current percentage:"
-      - "&7%percentage%"
+      - "&8» &7%percentage%"
       - ""
       - "&9Price: &7%price%"
     slot: 30
@@ -286,7 +329,22 @@ enchants:
     price: 10
     increase: 5
     max-level: 10
-
+  telepathy:
+    refundable: true
+    name: "&bTelepathy"
+    lore:
+      - "&8» &7Automatically puts"
+      - "&8» &7broken blocks"
+      - "&8» &7in your inventory."
+      - ""
+      - "&bCurrent state:"
+      - "&8» &7%state%"
+      - ""
+      - "&bPrice: &7250 gems"
+    slot: 20
+    material: ENDER_PEARL
+    price: 10
+    max-level: 1
 messages:
 #  General
   invalid-permission: "&cInvalid permissions!"
@@ -294,52 +352,58 @@ messages:
   invalid-target: "&cPlayer &l%player% &cnot found!"
   invalid-number: "&c&l%arg% &cis not a valid number!"
   incuffient-funds: "&cYou do not have enough tokens!"
+  inventory-full: "&c&lInventory Full"
 
 #  Usage
   gems-usage:
     - "&e&l------------- &dLevel &ePickaxe &dUsage &e&l-------------"
-    - "&7/gems"
-    - "&7/gems add <player> <gems>"
-    - "&7/gems give <player> <gems>"
-    - "&7/gems remove <player> <gems>"
-    - "&7/gems set <player> <gems>"
+    - "&8» &7/gems"
+    - "&8» &7/gems add <player> <gems>"
+    - "&8» &7/gems give <player> <gems>"
+    - "&8» &7/gems remove <player> <gems>"
+    - "&8» &7/gems set <player> <gems>"
   pickaxe-usage:
     - "&e&l------------- &bGems &bUsage &e&l-------------"
-    - "&7/levelpickaxe give <player>"
-    - "&7/levelpickaxe setlevel <player> <level>"
-    - "&7/levelpickaxe setblocks <player> <blocks>"
-    - "&7/levelpickaxe setexp <player> <exp>"
+    - "&8» &7/levelpickaxe give <player>"
+    - "&8» &7/levelpickaxe setlevel <player> <level>"
+    - "&8» &7/levelpickaxe setblocks <player> <blocks>"
+    - "&8» &7/levelpickaxe setexp <player> <exp>"
   set-gems-usage: "&cUsage: /gems set <player> <amount>"
   add-gems-usage: "&cUsage: /gems add <player> <amount>"
   remove-gems-usage: "&cUsage: /gems remove <player> <amount>"
   give-gems-usage: "&cUsage: /gems give <player> <amount>"
+
   give-pickaxe-usage: "&cUsage: /levelpick give <player>"
   set-blocks-usage: "&cUsage: /levelpick setblocks <player> <blocks>"
   set-level-usage: "&cUsage: /levelpick setlevel <player> <level>"
   set-exp-usage: "&cUsage: /levelpick setexp <player> <level>"
+  reset-pickaxe-usage: "&cUsage: /levelpick reset <player>!"
+
+  give-minebomb-usage: "&cUsage: /givebomb <player> <amount>"
 
 #  Gems
-  gems: "&7You currently have &d%gems% &7gems!"
-  set-gems: "&7Your gems have been set to &d%gems%&7!"
-  set-gems-sender: "&7Set gems of %target% to &d%gems%&7!"
+  gems: "&8» &7You currently have &d%gems% &7gems!"
+  set-gems: "&8» &7Your gems have been set to &d%gems%&7!"
+  set-gems-sender: "&8» &7Set gems of %target% to &d%gems%&7!"
   add-gems: "&d%gems% &7gems have been added to your account!"
-  add-gems-sender: "&7Added &d%gems%&7 to the account of %target%!"
+  add-gems-sender: "&8» &7Added &d%gems%&7 to the account of %target%!"
   remove-gems: "&d%gems% &7gems have been removed to your account!"
-  remove-gems-sender: "&7Removed &d%gems% &7gems from the account of %target%!"
-  give-gems: "&7You have given %target% &d%gems% &7gems!"
-  receive-gems: "&7You have received &d%gems% &7gems from %sender%!"
+  remove-gems-sender: "&8» &7Removed &d%gems% &7gems from the account of %target%!"
+  give-gems: "&8» &7You have given %target% &d%gems% &7gems!"
+  receive-gems: "&8» &7You have received &d%gems% &7gems from %sender%!"
+  gem-chance: "&8» &7You found &d1x Gem &7while mining!"
 
 #  Pickaxe
-  give-pickaxe: "&7You have given %target% a level pickaxe!"
-  receive-pickaxe: "&7You have received a level pickaxe!"
-  reset-pickaxe: "&7Your level pickaxe has been reset!"
-  reset-pickaxe-sender: "&7You have reset %target%'s level pickaxe!"
-  set-level: "&7The level of your pickaxe has been set to &d%level%&7!"
-  set-level-sender: "&7Set level of %target%'s pickaxe to &d%level%&7!"
-  set-blocks: "&7The amount of broken blocks of your pickaxe has been set to &d%blocks%&7!"
-  set-blocks-sender: "&7Set broken blocks of %target%'s pickaxe to &d%blocks%&7!"
-  set-exp: "&7The exp of your pickaxe has been set to &d%exp%&7!"
-  set-exp-sender: "&7Set exp of %target%'s pickaxe to &d%exp%&7!"
+  give-pickaxe: "&8» &7You have given %target% a level pickaxe!"
+  receive-pickaxe: "&8» &7You have received a level pickaxe!"
+  reset-pickaxe: "&8» &7Your level pickaxe has been reset!"
+  reset-pickaxe-sender: "&8» &7You have reset %target%'s level pickaxe!"
+  set-level: "&8» &7The level of your pickaxe has been set to &d%level%&7!"
+  set-level-sender: "&8» &7Set level of %target%'s pickaxe to &d%level%&7!"
+  set-blocks: "&8» &7The amount of broken blocks of your pickaxe has been set to &d%blocks%&7!"
+  set-blocks-sender: "&8» &7Set broken blocks of %target%'s pickaxe to &d%blocks%&7!"
+  set-exp: "&8» &7The exp of your pickaxe has been set to &d%exp%&7!"
+  set-exp-sender: "&8» &7Set exp of %target%'s pickaxe to &d%exp%&7!"
 
 # Progress bar for lore pickaxe
 progress:
@@ -349,7 +413,7 @@ progress:
   char: '|'
 
 pickaxe:
-  name: "&d&lLevel Pickaxe &7[%progress%&7]"
+  name: "&d&lLevel Pickaxe &7%level% [%progress%&7]"
   lore:
     - ''
     - '&d&lStatistics'
