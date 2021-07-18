@@ -1,8 +1,11 @@
 package me.matzhilven.slamcore.menus;
 
+import me.matzhilven.slamcore.data.User;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
 import me.matzhilven.slamcore.menus.gembank.GemBankMenu;
 import me.matzhilven.slamcore.utils.ItemBuilder;
+import me.matzhilven.slamcore.utils.Messager;
+import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -45,20 +48,47 @@ public class PickaxeMenu extends Menu {
 
         }
 
-
         if (!slots.containsKey(e.getSlot())) return;
+
+        User user = main.getDatabaseHandler().getUserByPlayer(p);
+
+        int inventoryGems = getGemsInInventory();
+        long bankGems = user.getGems();
 
         Enchantment enchantment = slots.get(e.getSlot());
 
         ItemMeta meta = pickaxe.getItemMeta();
 
+        if (meta.getEnchantLevel(enchantment) == enchantment.getMaxLevel()) {
+            StringUtils.sendMessage(p, Messager.MAX_LEVEL);
+            return;
+        }
+
+        int price = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".price") +
+                meta.getEnchantLevel(enchantment) *
+                        config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".increase", 0);
+
+        if ((inventoryGems + bankGems) < price) {
+            StringUtils.sendMessage(p, Messager.INSUFFICIENT_FUNDS_MENU.replace("%gems%", StringUtils.format(price - user.getGems())));
+            return;
+        }
+
+        if (inventoryGems >= price) {
+            removeGems(price);
+        } else if ((inventoryGems + bankGems) >= price && inventoryGems != 0) {
+            removeGems(inventoryGems);
+            user.setGems(bankGems - (price - inventoryGems));
+            main.getDatabaseHandler().saveUser(user);
+        } else {
+            user.setGems(bankGems - price);
+            main.getDatabaseHandler().saveUser(user);
+        }
+
         meta.addEnchant(enchantment, meta.getEnchantLevel(enchantment) + 1, true);
-
         pickaxe.setItemMeta(meta);
-
         p.getInventory().setItemInMainHand(pickaxe);
-        setMenuItems();
 
+        setMenuItems();
 
         if (meta.hasEnchant(PrisonEnchants.JUMP)) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, meta.getEnchantLevel(PrisonEnchants.JUMP)));
@@ -127,24 +157,27 @@ public class PickaxeMenu extends Menu {
             int cP = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".price");
             int incr = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".increase", 0);
 
+            ItemBuilder ib = new ItemBuilder(material)
+                    .setName(config.getString("enchants." + enchant + ".name"))
+                    .setLore(config.getStringList("enchants." + enchant + ".lore"))
+                    .replace("%level%",
+                            String.valueOf(level))
+                    .replace("%max_level%",
+                            String.valueOf(maxLevel))
+                    .replace("%chance%",
+                            String.valueOf(chance))
+                    .replace("%state%", level == maxLevel ? "Unlocked" : "Locked")
+                    .replace("%percentage%", String.valueOf(100 + (10 * level)))
+                    .addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
 
-            inventory.setItem(config.getInt("enchants." + enchant + ".slot"),
-                    new ItemBuilder(material)
-                            .setName(config.getString("enchants." + enchant + ".name"))
-                            .setLore(config.getStringList("enchants." + enchant + ".lore"))
-                            .replace("%level%",
-                                    String.valueOf(level))
-                            .replace("%max_level%",
-                                    String.valueOf(maxLevel))
-                            .replace("%chance%",
-                                    String.valueOf(chance))
-                            .replace("%price%",
-                                    String.valueOf(cP + level * incr))
-                            .replace("%state%", level == maxLevel ? "Unlocked" : "Locked")
-                            .replace("%percentage%", String.valueOf(100 + (10 * level)))
-                            .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                            .toItemStack()
-            );
+            if (level >= maxLevel) {
+                ib.removeLine("%price%");
+                ib.removeLine("Price");
+            } else {
+                ib.replace("%price%", String.valueOf(cP + level * incr));
+            }
+
+            inventory.setItem(config.getInt("enchants." + enchant + ".slot"), ib.toItemStack());
 
             slots.put(config.getInt("enchants." + enchant + ".slot"), enchantment);
         });

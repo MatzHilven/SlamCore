@@ -21,7 +21,7 @@ public abstract class PrisonEnchant extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return main.getConfig().getInt("enchants." + getName().trim().toLowerCase() + ".max-level");
+        return main.getConfig().getInt("enchants." + getName().trim().toLowerCase().replace(" ", "") + ".max-level");
     }
 
     @Override

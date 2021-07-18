@@ -513,6 +513,15 @@ messages:
   withdraw-gems: "&8» &7Withdrawn &d%gems% &7gems! You currently have &d%balance%&7 deposited gems!"
   not-enough-gems: "&8» &7You don't have enough free inventory space to withdraw &d%gems% &7gems!"
 
+  #  Gemtop
+  gemtop:
+    - "&e&l------------- &dGem&cTop &e&l-------------"
+    - "1. %player-1% - %balance-1%"
+    - "2. %player-2% - %balance-2%"
+    - "3. %player-3% - %balance-3%"
+    - "4. %player-4% - %balance-4%"
+    - "5. %player-5% - %balance-5%"
+
   #  Pickaxe
   give-pickaxe: "&8» &7You have given %target% a level pickaxe!"
   receive-pickaxe: "&8» &7You have received a level pickaxe!"
@@ -525,14 +534,8 @@ messages:
   set-exp: "&8» &7The exp of your pickaxe has been set to &d%exp%&7!"
   set-exp-sender: "&8» &7Set exp of %target%'s pickaxe to &d%exp%&7!"
 
-  #  Gemtop
-  gemtop:
-    - "&e&l------------- &dGem&cTop &e&l-------------"
-    - "1. %player-1% - %balance-1%"
-    - "2. %player-2% - %balance-2%"
-    - "3. %player-3% - %balance-3%"
-    - "4. %player-4% - %balance-4%"
-    - "5. %player-5% - %balance-5%"
+  insufficient-funds-menu: "&8» &7You do not have enough gems to upgrade this enchantment! You need &d%gems% &7more!"
+  max-level: "&8» &7This enchantment is already max level!"
 
 # Progress bar for lore pickaxe
 progress:

@@ -44,9 +44,6 @@ public class WithdrawMenu extends Menu {
             return;
         }
 
-        System.out.println(toWithdraw);
-
-
         if (bankGems - toWithdraw < 0) {
             StringUtils.sendMessage(p, Messager.INVALID_WITHDRAW.replace("%gems%", StringUtils.format(toWithdraw)));
             return;

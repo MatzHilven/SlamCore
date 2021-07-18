@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Messager {
 
-//  General
-public static final String INVALID_PERMISSION = SlamCore.getInstance().getConfig().getString("messages.invalid-permission");
+    //  General
+    public static final String INVALID_PERMISSION = SlamCore.getInstance().getConfig().getString("messages.invalid-permission");
     public static final String INVALID_SENDER = SlamCore.getInstance().getConfig().getString("messages.invalid-sender");
     public static final String INVALID_TARGET = SlamCore.getInstance().getConfig().getString("messages.invalid-target");
     public static final String INVALID_NUMBER = SlamCore.getInstance().getConfig().getString("messages.invalid-number");
@@ -65,5 +65,9 @@ public static final String INVALID_PERMISSION = SlamCore.getInstance().getConfig
     public static final String SET_BLOCKS_SENDER = SlamCore.getInstance().getConfig().getString("messages.set-blocks-sender");
     public static final String SET_EXP = SlamCore.getInstance().getConfig().getString("messages.set-exp");
     public static final String SET_EXP_SENDER = SlamCore.getInstance().getConfig().getString("messages.set-exp-sender");
+
+    // Pickaxe Menu
+    public static final String INSUFFICIENT_FUNDS_MENU = SlamCore.getInstance().getConfig().getString("messages.insufficient-funds-menu");
+    public static final String MAX_LEVEL = SlamCore.getInstance().getConfig().getString("messages.max-level");
 
 }

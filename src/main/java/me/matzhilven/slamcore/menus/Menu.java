@@ -74,4 +74,27 @@ public abstract class Menu implements InventoryHolder {
                 .setLore(config.getStringList("enchants.gemchance.gem.lore"))
                 .toItemStack();
     }
+
+    protected void removeGems(int amount) {
+        int removed = 0;
+
+        String name = StringUtils.removeColor(config.getString("enchants.gemchance.gem.name"));
+
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (removed == amount) return;
+
+            if (item == null || item.getType() == Material.AIR || !(item.getType() == Material.SUNFLOWER)) continue;
+            if (!item.hasItemMeta()) continue;
+            if (!item.getItemMeta().hasDisplayName()) continue;
+            if (!StringUtils.decolorize(item.getItemMeta().getDisplayName()).equals(name)) continue;
+
+            if (item.getAmount() >= amount) {
+                item.setAmount(item.getAmount() - amount);
+                return;
+            } else {
+                removed += item.getAmount();
+                item.setAmount(0);
+            }
+        }
+    }
 }

@@ -122,13 +122,39 @@ public class ItemBuilder {
 
     /**
      * Add a lore line.
+     *
      * @param line The lore line to add.
      */
-    public ItemBuilder addLoreLine(String line){
+    public ItemBuilder addLoreLine(String line) {
         ItemMeta im = is.getItemMeta();
         List<String> lore = new ArrayList<>();
-        if(im.hasLore())lore = new ArrayList<>(im.getLore());
+        if (im.hasLore()) lore = new ArrayList<>(im.getLore());
         lore.add(StringUtils.colorize(line));
+        im.setLore(lore);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
+     * Remove a line from the lore
+     *
+     * @param val the value in a line that needs to be removed
+     */
+    public ItemBuilder removeLine(String val) {
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = new ArrayList<>();
+        if (im.hasLore()) lore = new ArrayList<>(im.getLore());
+        lore.removeIf(key -> key.contains(val));
+        im.setLore(lore);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    public ItemBuilder removeLastIfEmpty() {
+        ItemMeta im = is.getItemMeta();
+        List<String> lore = new ArrayList<>();
+        if (im.hasLore()) lore = new ArrayList<>(im.getLore());
+        if (lore.get(lore.size() - 1).equals("")) lore.remove(lore.get(lore.size() - 1));
         im.setLore(lore);
         is.setItemMeta(im);
         return this;
@@ -138,7 +164,7 @@ public class ItemBuilder {
      * Makes the current item glowing
      */
     public ItemBuilder addGlow() {
-        is.addUnsafeEnchantment(Enchantment.LUCK,1);
+        is.addUnsafeEnchantment(Enchantment.LUCK, 1);
         ItemMeta im = is.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         is.setItemMeta(im);

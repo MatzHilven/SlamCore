@@ -8,7 +8,6 @@ import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class DepositMenu extends Menu {
 
@@ -99,28 +98,5 @@ public class DepositMenu extends Menu {
                 .setName(config.getString("pickaxe-menu.filler.name"))
                 .setLore(config.getStringList("pickaxe-menu.filler.lore"))
                 .toItemStack());
-    }
-
-    private void removeGems(int amount) {
-        int removed = 0;
-
-        String name = StringUtils.removeColor(config.getString("enchants.gemchance.gem.name"));
-
-        for (ItemStack item : p.getInventory().getContents()) {
-            if (removed == amount) return;
-
-            if (item == null || item.getType() == Material.AIR || !(item.getType() == Material.SUNFLOWER)) continue;
-            if (!item.hasItemMeta()) continue;
-            if (!item.getItemMeta().hasDisplayName()) continue;
-            if (!StringUtils.decolorize(item.getItemMeta().getDisplayName()).equals(name)) continue;
-
-            if (item.getAmount() >= amount) {
-                item.setAmount(item.getAmount() - amount);
-                return;
-            } else {
-                removed += item.getAmount();
-                item.setAmount(0);
-            }
-        }
     }
 }
