@@ -10,11 +10,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class InterestRunnable extends BukkitRunnable {
 
-    private final SlamCore main;
     private final DatabaseHandler databaseHandler;
 
     public InterestRunnable(SlamCore main) {
-        this.main = main;
         this.databaseHandler = main.getDatabaseHandler();
     }
 
@@ -23,13 +21,13 @@ public class InterestRunnable extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             User user = databaseHandler.getUserByPlayer(player);
             long gems = user.getGems();
-            long newGems = (long) Math.floor(gems * 1.1);
+            long newGems = (long) Math.floor(gems * 1.01);
             user.setGems(newGems);
             databaseHandler.saveUser(user);
 
             StringUtils.sendMessage(player, Messager.INTEREST
-                    .replace("%gems%", StringUtils.format(newGems - gems)
-                            .replace("%balance%", StringUtils.format(newGems))));
+                    .replace("%gems%", StringUtils.format(newGems - gems))
+                    .replace("%balance%", StringUtils.format(newGems)));
         });
     }
 }

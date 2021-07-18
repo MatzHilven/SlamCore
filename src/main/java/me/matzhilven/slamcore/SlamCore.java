@@ -2,8 +2,9 @@ package me.matzhilven.slamcore;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
-import me.matzhilven.slamcore.commands.gembank.GemBankCommand;
 import me.matzhilven.slamcore.commands.gems.GemsBaseCommand;
+import me.matzhilven.slamcore.commands.gems.gembank.GemBankCommand;
+import me.matzhilven.slamcore.commands.gems.gemtop.GemTopCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsAddSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsGiveSubCommand;
 import me.matzhilven.slamcore.commands.gems.subcommands.GemsRemoveSubCommand;
@@ -13,6 +14,7 @@ import me.matzhilven.slamcore.commands.levelpickaxe.subcommands.*;
 import me.matzhilven.slamcore.commands.minebomb.MineBombCommand;
 import me.matzhilven.slamcore.data.DatabaseHandler;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
+import me.matzhilven.slamcore.hooks.PlaceHolderAPI;
 import me.matzhilven.slamcore.listeners.InventoryListeners;
 import me.matzhilven.slamcore.listeners.ItemListener;
 import me.matzhilven.slamcore.listeners.PlayerListener;
@@ -49,6 +51,10 @@ public final class SlamCore extends JavaPlugin {
         new InventoryListeners(this);
         ProtocolLibrary.getProtocolManager().addPacketListener(new ItemListener(this));
 
+//      Register PlaceHolders
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceHolderAPI(this).register();
+        }
 
 //      Register Commands
         GemsBaseCommand gemsBaseCommand = new GemsBaseCommand(this);
@@ -66,10 +72,11 @@ public final class SlamCore extends JavaPlugin {
 
         new MineBombCommand(this);
         new GemBankCommand(this);
+        new GemTopCommand(this);
 
 //      Activate Runnables
 
-        new InterestRunnable(this).runTaskTimer(this, 1 * 60L * 20L, 1 * 60L * 20L);
+        new InterestRunnable(this).runTaskTimer(this, 60 * 60L * 20L, 60 * 60L * 20L);
     }
 
     @Override

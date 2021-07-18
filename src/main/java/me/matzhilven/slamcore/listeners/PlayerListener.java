@@ -7,7 +7,9 @@ import de.tr7zw.nbtapi.NBTItem;
 import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.data.User;
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
+import me.matzhilven.slamcore.levelpickaxe.LevelPickaxe;
 import me.matzhilven.slamcore.menus.PickaxeMenu;
+import me.matzhilven.slamcore.menus.gembank.GemBankMenu;
 import me.matzhilven.slamcore.utils.ItemBuilder;
 import me.matzhilven.slamcore.utils.Messager;
 import me.matzhilven.slamcore.utils.StringUtils;
@@ -54,7 +56,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        // Todo Give Levelpick
+        if (!e.getPlayer().hasPlayedBefore()) {
+            LevelPickaxe levelPickaxe = new LevelPickaxe(1, 0, 0);
+            e.getPlayer().getInventory().addItem(levelPickaxe.getPickaxe());
+
+            main.getDatabaseHandler().getUserByPlayer(e.getPlayer());
+        }
     }
 
     @EventHandler
@@ -129,12 +136,15 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    private void onPickaxeClick(PlayerInteractEvent e) {
+    private void onItemClick(PlayerInteractEvent e) {
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
         if (e.getItem() == null || e.getItem().getType() == Material.AIR) return;
         if (e.getItem().getType().toString().endsWith("PICKAXE")) {
             PickaxeMenu pickaxeMenu = new PickaxeMenu(e.getPlayer(), e.getItem());
             pickaxeMenu.open();
+        } else if (e.getItem().getItemMeta().getDisplayName().equals(StringUtils.colorize(config.getString("enchants.gemchance.gem.name")))) {
+            GemBankMenu gemBankMenu = new GemBankMenu(e.getPlayer());
+            gemBankMenu.open();
         }
     }
 

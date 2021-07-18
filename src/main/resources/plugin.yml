@@ -3,6 +3,8 @@ version: ${project.version}
 main: me.matzhilven.slamcore.SlamCore
 api-version: 1.16
 depend: [ ProtocolLib, Mines ]
+softdepend:
+  - PlaceholderAPI
 authors: [ MatzHilven ]
 commands:
   gems:
@@ -17,6 +19,8 @@ commands:
       - gb
   gembank:
     permission: core.gembank
+  gemtop:
+    permission: core.gemtop
 
 permissions:
   core.gem:
@@ -28,4 +32,6 @@ permissions:
   core.minebomb:
     default: op
   core.gembank:
+    default: op
+  core.gemtop:
     default: op

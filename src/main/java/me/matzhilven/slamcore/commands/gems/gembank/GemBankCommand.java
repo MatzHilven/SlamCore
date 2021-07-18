@@ -1,4 +1,4 @@
-package me.matzhilven.slamcore.commands.gembank;
+package me.matzhilven.slamcore.commands.gems.gembank;
 
 import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.menus.gembank.GemBankMenu;

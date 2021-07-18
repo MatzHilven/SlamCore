@@ -9,6 +9,7 @@ import org.mongodb.morphia.Morphia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DatabaseHandler {
 
@@ -41,8 +42,17 @@ public class DatabaseHandler {
             user.setUuid(player.getUniqueId().toString());
             user.setGems(0);
             userDAO.save(user);
+        } else {
+            if (!user.getUsername().equals(player.getName())) {
+                user.setUsername(player.getName());
+                userDAO.save(user);
+            }
         }
         return user;
+    }
+
+    public User getUserByUUID(UUID uuid) {
+        return userDAO.findOne("uuid", uuid.toString());
     }
 
     public void savePlayer(Player player) {

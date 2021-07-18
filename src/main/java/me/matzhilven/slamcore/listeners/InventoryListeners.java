@@ -23,6 +23,8 @@ public class InventoryListeners implements Listener {
 
             e.setCancelled(true);
 
+            if (e.getCurrentItem().getType().toString().contains("STAINED_GLASS_PANE")) return;
+
             Menu menu = (Menu) holder;
             menu.handleClick(e);
         }

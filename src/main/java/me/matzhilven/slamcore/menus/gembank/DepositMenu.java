@@ -1,10 +1,14 @@
 package me.matzhilven.slamcore.menus.gembank;
 
+import me.matzhilven.slamcore.data.User;
 import me.matzhilven.slamcore.menus.Menu;
 import me.matzhilven.slamcore.utils.ItemBuilder;
+import me.matzhilven.slamcore.utils.Messager;
+import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class DepositMenu extends Menu {
 
@@ -24,16 +28,38 @@ public class DepositMenu extends Menu {
 
     @Override
     public void handleClick(InventoryClickEvent e) {
-        if (e.getSlot() == config.getInt("gembank.deposit-menu.1.slot")) {
 
-        } else if (e.getSlot() == config.getInt("gembank.deposit-menu.10.slot")) {
+        User user = main.getDatabaseHandler().getUserByPlayer(p);
+        long bankGems = user.getGems();
+        int inventoryGems = getGemsInInventory();
 
+        int toDeposit = 1;
+
+        if (e.getSlot() == config.getInt("gembank.deposit-menu.10.slot")) {
+            toDeposit = 10;
         } else if (e.getSlot() == config.getInt("gembank.deposit-menu.all.slot")) {
-
+            toDeposit = inventoryGems;
         } else if (e.getSlot() == config.getInt("gembank.deposit-menu.back.slot")) {
             GemBankMenu gemBankMenu = new GemBankMenu(p);
             gemBankMenu.open();
+            return;
         }
+
+        if (inventoryGems < toDeposit || toDeposit == 0) {
+            StringUtils.sendMessage(p, Messager.INVALID_DEPOSIT.replace("%gems%",
+                    toDeposit == 0 ? "any" : String.valueOf(toDeposit)));
+            return;
+        }
+
+        user.setGems((bankGems + toDeposit));
+
+        removeGems(toDeposit);
+
+        StringUtils.sendMessage(p, Messager.DEPOSIT_GEMS
+                .replace("%gems%", StringUtils.format(toDeposit))
+                .replace("%balance%", StringUtils.format(user.getGems())));
+
+        main.getDatabaseHandler().saveUser(user);
     }
 
     @Override
@@ -73,5 +99,28 @@ public class DepositMenu extends Menu {
                 .setName(config.getString("pickaxe-menu.filler.name"))
                 .setLore(config.getStringList("pickaxe-menu.filler.lore"))
                 .toItemStack());
+    }
+
+    private void removeGems(int amount) {
+        int removed = 0;
+
+        String name = StringUtils.removeColor(config.getString("enchants.gemchance.gem.name"));
+
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (removed == amount) return;
+
+            if (item == null || item.getType() == Material.AIR || !(item.getType() == Material.SUNFLOWER)) continue;
+            if (!item.hasItemMeta()) continue;
+            if (!item.getItemMeta().hasDisplayName()) continue;
+            if (!StringUtils.decolorize(item.getItemMeta().getDisplayName()).equals(name)) continue;
+
+            if (item.getAmount() >= amount) {
+                item.setAmount(item.getAmount() - amount);
+                return;
+            } else {
+                removed += item.getAmount();
+                item.setAmount(0);
+            }
+        }
     }
 }

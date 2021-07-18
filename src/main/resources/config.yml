@@ -504,9 +504,16 @@ messages:
   give-gems: "&8» &7You have given %target% &d%gems% &7gems!"
   receive-gems: "&8» &7You have received &d%gems% &7gems from %sender%!"
   gem-chance: "&8» &7You found &d1x Gem &7while mining!"
-  interest: "&8» &7Interest time! You got &d%gems% &7gem(s), your new balance is &d%balance% &7!"
 
-#  Pickaxe
+  #  GemBank
+  interest: "&8» &7Interest time! You got &d%gems% &7gem(s), your new balance is &d%balance%&7!"
+  invalid-deposit: "&8» &7You don't have &d%gems% &7gems to deposit"
+  invalid-withdraw: "&8» &7You don't have &d%gems% &7gems to withdraw"
+  deposit-gems: "&8» &7Deposited &d%gems% &7gems! You currently have &d%balance%&7 deposited gems!"
+  withdraw-gems: "&8» &7Withdrawn &d%gems% &7gems! You currently have &d%balance%&7 deposited gems!"
+  not-enough-gems: "&8» &7You don't have enough free inventory space to withdraw &d%gems% &7gems!"
+
+  #  Pickaxe
   give-pickaxe: "&8» &7You have given %target% a level pickaxe!"
   receive-pickaxe: "&8» &7You have received a level pickaxe!"
   reset-pickaxe: "&8» &7Your level pickaxe has been reset!"
@@ -517,6 +524,15 @@ messages:
   set-blocks-sender: "&8» &7Set broken blocks of %target%'s pickaxe to &d%blocks%&7!"
   set-exp: "&8» &7The exp of your pickaxe has been set to &d%exp%&7!"
   set-exp-sender: "&8» &7Set exp of %target%'s pickaxe to &d%exp%&7!"
+
+  #  Gemtop
+  gemtop:
+    - "&e&l------------- &dGem&cTop &e&l-------------"
+    - "1. %player-1% - %balance-1%"
+    - "2. %player-2% - %balance-2%"
+    - "3. %player-3% - %balance-3%"
+    - "4. %player-4% - %balance-4%"
+    - "5. %player-5% - %balance-5%"
 
 # Progress bar for lore pickaxe
 progress:
