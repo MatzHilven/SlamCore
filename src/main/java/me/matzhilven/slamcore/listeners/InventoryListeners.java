@@ -10,10 +10,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class InventoryListeners implements Listener {
 
-    private final SlamCore main;
-
     public InventoryListeners(SlamCore main) {
-        this.main = main;
         main.getServer().getPluginManager().registerEvents(this, main);
     }
 

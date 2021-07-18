@@ -93,6 +93,8 @@ public class ItemListener extends PacketAdapter {
         for (Map.Entry<Enchantment, Integer> entry : item.getItemMeta().getEnchants().entrySet()) {
             if (entry.getKey().getName().equals("DIG_SPEED")) {
                 enchants.put(i, StringUtils.colorize("&7Efficiency " + entry.getValue()));
+            } else if (entry.getKey().getName().equals("LOOT_BONUS_BLOCKS")) {
+                enchants.put(i, StringUtils.colorize("&7Fortune " + entry.getValue()));
             } else {
                 enchants.put(i, StringUtils.colorize("&7" + entry.getKey().getName() + " " + entry.getValue()));
             }

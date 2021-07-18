@@ -1,17 +1,27 @@
 package me.matzhilven.slamcore.commands.levelpickaxe.subcommands;
 
 import de.tr7zw.nbtapi.NBTItem;
+import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.commands.SubCommand;
 import me.matzhilven.slamcore.utils.Messager;
 import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class LPSetLevelSubCommand implements SubCommand {
+
+    private final SlamCore main;
+
+    public LPSetLevelSubCommand(SlamCore main) {
+        this.main = main;
+    }
 
     @Override
     public void onCommand(CommandSender sender, Command command, String[] args) {
@@ -50,7 +60,20 @@ public class LPSetLevelSubCommand implements SubCommand {
             NBTItem nbtItem = new NBTItem(item);
             if (nbtItem.hasKey("levelpick")) {
                 nbtItem.setInteger("level", level);
-                target.getInventory().setItem(i,nbtItem.getItem());
+
+                item = nbtItem.getItem();
+                ItemMeta meta = item.getItemMeta();
+
+                for (String s : main.getConfig().getStringList("levels." + (level + 1) + ".enchants")) {
+                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(s.split(" ; ")[0].trim().toLowerCase()));
+                    int enchLevel = Integer.parseInt(s.split(" ; ")[1].trim());
+                    if (enchantment == null || level == 0) continue;
+                    meta.addEnchant(enchantment, enchLevel, true);
+                }
+
+                item.setItemMeta(meta);
+
+                target.getInventory().setItem(i, item);
             }
             i++;
         }

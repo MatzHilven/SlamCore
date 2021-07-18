@@ -2,7 +2,6 @@ package me.matzhilven.slamcore.commands.levelpickaxe;
 
 import me.matzhilven.slamcore.SlamCore;
 import me.matzhilven.slamcore.commands.SubCommand;
-import me.matzhilven.slamcore.data.User;
 import me.matzhilven.slamcore.utils.Messager;
 import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -21,11 +20,9 @@ import java.util.stream.Collectors;
 
 public class LevelPickaxeBaseCommand implements CommandExecutor, TabExecutor {
 
-    private final SlamCore main;
     private final Map<String, SubCommand> subCommands = new HashMap<>();
 
     public LevelPickaxeBaseCommand(SlamCore main) {
-        this.main = main;
         main.getCommand("levelpick").setExecutor(this);
         main.getCommand("levelpick").setTabCompleter(this);
     }

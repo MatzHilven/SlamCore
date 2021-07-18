@@ -12,18 +12,130 @@ pickaxe-menu:
     lore:
       - " "
     material: "GRAY_STAINED_GLASS_PANE"
-  settings:
-    material: "REDSTONE_TORCH"
-    name: "&c&lSettings"
-    slot: 44
-    lore:
-      - "&7Click to open the settings menu."
   gembank:
     material: "SUNFLOWER"
     name: "&d&lGemBank"
     slot: 36
     lore:
       - "&7Click to open the gembank."
+  settings:
+    material: "REDSTONE_TORCH"
+    name: "&c&lSettings"
+    slot: 44
+    lore:
+      - "&7Click to open the settings menu."
+
+gembank:
+  filler:
+    name: " "
+    lore:
+      - " "
+    material: "GRAY_STAINED_GLASS_PANE"
+  main-menu:
+    name: "&d&lGemBank"
+    slots: 27
+    info:
+      material: "SUNFLOWER"
+      name: "&d&lGems"
+      slot: 13
+      lore:
+        - "&7You currently have"
+        - "&d%gems% &7gems deposited"
+        - ""
+        - "&d&lInterest"
+        - "&7Every 24 hours, you will get &d1%"
+        - "&7interest on the deposited gems"
+        - "&7that are in your account"
+    withdraw:
+      material: "PAPER"
+      name: "&c&lWithdraw gems"
+      slot: 15
+      lore:
+        - "&7Click to withdraw gems"
+        - "&7out of your account"
+    deposit:
+      material: "PAPER"
+      name: "&a&lDeposit gems"
+      slot: 11
+      lore:
+        - "&7Click to deposit gems"
+        - "&7into your account"
+    close:
+      material: "BARRIER"
+      name: "&c&lClose"
+      slot: 22
+      lore:
+        - ""
+  withdraw-menu:
+    name: "&c&lWithdraw Gems"
+    slots: 27
+    1:
+      material: "SUNFLOWER"
+      amount: 1
+      name: "&c&lWithdraw 1x gem"
+      slot: 11
+      lore:
+        - "&7Click to withdraw"
+        - "&c1 &7Gem"
+    10:
+      material: "SUNFLOWER"
+      amount: 10
+      name: "&c&lWithdraw 10x gems"
+      slot: 13
+      lore:
+        - "&7Click to withdraw"
+        - "&c10 &7Gems"
+    all:
+      material: "SUNFLOWER"
+      amount: 64
+      name: "&c&lWithdraw all gems"
+      slot: 15
+      lore:
+        - "&7Click to withdraw"
+        - "&7all the gems"
+        - "&7that are in your account"
+    back:
+      material: "BARRIER"
+      name: "&c&lBack"
+      slot: 22
+      lore:
+        - "&7Click to go back to"
+        - "&7the gem bank"
+  deposit-menu:
+    name: "&a&lDeposit Gems"
+    slots: 27
+    1:
+      material: "SUNFLOWER"
+      amount: 1
+      name: "&a&lDeposit 1x gem"
+      slot: 11
+      lore:
+        - "&7Click to deposit"
+        - "&a1 &7Gem"
+    10:
+      material: "SUNFLOWER"
+      amount: 10
+      name: "&a&lDeposit 10x gems"
+      slot: 13
+      lore:
+        - "&7Click to deposit"
+        - "&a10 &7Gems"
+    all:
+      material: "SUNFLOWER"
+      amount: 64
+      name: "&a&lDeposit all gems"
+      slot: 15
+      lore:
+        - "&7Click to deposit"
+        - "&7all the gems"
+        - "&7that are in your inventory"
+    back:
+      material: "BARRIER"
+      name: "&c&lBack"
+      slot: 22
+      lore:
+        - "&7Click to go back to"
+        - "&7the gem bank"
 
 minebomb:
   name: "&d&lMineBomb"
@@ -392,6 +504,7 @@ messages:
   give-gems: "&8» &7You have given %target% &d%gems% &7gems!"
   receive-gems: "&8» &7You have received &d%gems% &7gems from %sender%!"
   gem-chance: "&8» &7You found &d1x Gem &7while mining!"
+  interest: "&8» &7Interest time! You got &d%gems% &7gem(s), your new balance is &d%balance% &7!"
 
 #  Pickaxe
   give-pickaxe: "&8» &7You have given %target% a level pickaxe!"
@@ -444,39 +557,70 @@ blocks:
 
 # Pickaxe Levels
 levels:
+  1:
+    enchants:
+      - efficiency ; 1
+      - fortune ; 1
   2:
     exp: 10
+    enchants:
+      - efficiency ; 2
+      - fortune ; 1
     rewards:
       - "give %player% stone"
   3:
     exp: 25
+    enchants:
+      - efficiency ; 3
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   4:
     exp: 50
+    enchants:
+      - efficiency ; 4
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   5:
     exp: 75
+    enchants:
+      - efficiency ; 5
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   6:
     exp: 100
+    enchants:
+      - efficiency ; 6
+      - fortune ; 1
     rewards:
       - "give %player% stone"
   7:
     exp: 150
+    enchants:
+      - efficiency ; 7
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   8:
     exp: 250
+    enchants:
+      - efficiency ; 8
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   9:
     exp: 500
+    enchants:
+      - efficiency ; 9
+      - fortune ; 1
     rewards:
       - "give %player% emerald"
   10:
     exp: 1000
+    enchants:
+      - efficiency ; 10
+      - fortune ; 1
     rewards:
       - "give %player% emerald"

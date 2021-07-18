@@ -7,11 +7,14 @@ import me.matzhilven.slamcore.utils.Messager;
 import me.matzhilven.slamcore.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class LPSetExpSubCommand implements SubCommand {
 
@@ -63,7 +66,6 @@ public class LPSetExpSubCommand implements SubCommand {
                 int newLevel = checkLevel(exp);
 
                 if (level != newLevel) {
-                    System.out.println("new");
                     if (level < newLevel) {
                         nbtItem.setInteger("level", newLevel);
                         nbtItem.setInteger("exp", exp - (config.getInt("levels." + newLevel + ".exp")));
@@ -75,7 +77,16 @@ public class LPSetExpSubCommand implements SubCommand {
                     nbtItem.setInteger("exp", exp);
                 }
 
-                target.getInventory().setItem(i,nbtItem.getItem());
+                ItemMeta meta = item.getItemMeta();
+
+                for (String s : main.getConfig().getStringList("levels." + newLevel + ".enchants")) {
+                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(s.split(" ; ")[0].trim().toLowerCase()));
+                    int enchLevel = Integer.parseInt(s.split(" ; ")[1].trim());
+                    if (enchantment == null || level == 0) continue;
+                    meta.addEnchant(enchantment, enchLevel, true);
+                }
+                item.setItemMeta(meta);
+                target.getInventory().setItem(i, nbtItem.getItem());
             }
             i++;
         }

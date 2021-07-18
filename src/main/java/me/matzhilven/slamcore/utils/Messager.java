@@ -38,6 +38,7 @@ public class Messager {
     public static final String GIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.give-gems");
     public static final String RECEIVE_GEMS = SlamCore.getInstance().getConfig().getString("messages.receive-gems");
     public static final String GEM_CHANCE = SlamCore.getInstance().getConfig().getString("messages.gem-chance");
+    public static final String INTEREST = SlamCore.getInstance().getConfig().getString("messages.interest");
 
     public static final String GIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.give-pickaxe");
     public static final String RECEIVE_PICKAXE = SlamCore.getInstance().getConfig().getString("messages.receive-pickaxe");

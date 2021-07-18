@@ -1,6 +1,7 @@
 package me.matzhilven.slamcore.menus;
 
 import me.matzhilven.slamcore.enchantments.PrisonEnchants;
+import me.matzhilven.slamcore.menus.gembank.GemBankMenu;
 import me.matzhilven.slamcore.utils.ItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -37,8 +38,15 @@ public class PickaxeMenu extends Menu {
 
     @Override
     public void handleClick(InventoryClickEvent e) {
-        if (!slots.containsKey(e.getSlot())) return;
+        if (e.getSlot() == config.getInt("pickaxe-menu.gembank.slot")) {
+            GemBankMenu gemBankMenu = new GemBankMenu(p);
+            gemBankMenu.open();
+        } else if (e.getSlot() == config.getInt("pickaxe-menu.settings.slot")) {
 
+        }
+
+
+        if (!slots.containsKey(e.getSlot())) return;
 
         Enchantment enchantment = slots.get(e.getSlot());
 
@@ -90,8 +98,20 @@ public class PickaxeMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        Material mat = Material.matchMaterial(config.getString("pickaxe-menu.filler.material"));
 
+        inventory.setItem(config.getInt("pickaxe-menu.gembank.slot"),
+                new ItemBuilder(Material.matchMaterial(config.getString("pickaxe-menu.gembank.material")))
+                        .setName(config.getString("pickaxe-menu.gembank.name"))
+                        .setLore(config.getStringList("pickaxe-menu.gembank.lore"))
+                        .toItemStack()
+        );
+
+        inventory.setItem(config.getInt("pickaxe-menu.settings.slot"),
+                new ItemBuilder(Material.matchMaterial(config.getString("pickaxe-menu.settings.material")))
+                        .setName(config.getString("pickaxe-menu.settings.name"))
+                        .setLore(config.getStringList("pickaxe-menu.settings.lore"))
+                        .toItemStack()
+        );
 
         config.getConfigurationSection("enchants").getKeys(false).forEach(enchant -> {
             Material material = Material.matchMaterial(config.getString("enchants." + enchant + ".material"));
@@ -102,12 +122,11 @@ public class PickaxeMenu extends Menu {
 
             int maxLevel = config.getInt("enchants." + enchant + ".max-level");
 
-            System.out.println(enchant + " " + maxLevel);
-
             double chance = (int) ((level * config.getDouble("enchants." + enchant + ".chance", 1)) * 100);
 
             int cP = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".price");
             int incr = config.getInt("enchants." + enchantment.getKey().getKey().toLowerCase() + ".increase", 0);
+
 
             inventory.setItem(config.getInt("enchants." + enchant + ".slot"),
                     new ItemBuilder(material)
@@ -122,6 +141,7 @@ public class PickaxeMenu extends Menu {
                             .replace("%price%",
                                     String.valueOf(cP + level * incr))
                             .replace("%state%", level == maxLevel ? "Unlocked" : "Locked")
+                            .replace("%percentage%", String.valueOf(100 + (10 * level)))
                             .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                             .toItemStack()
             );
@@ -129,7 +149,7 @@ public class PickaxeMenu extends Menu {
             slots.put(config.getInt("enchants." + enchant + ".slot"), enchantment);
         });
 
-        setFillerGlass(new ItemBuilder(mat)
+        setFillerGlass(new ItemBuilder(Material.matchMaterial(config.getString("pickaxe-menu.filler.material")))
                 .setName(config.getString("pickaxe-menu.filler.name"))
                 .setLore(config.getStringList("pickaxe-menu.filler.lore"))
                 .toItemStack());

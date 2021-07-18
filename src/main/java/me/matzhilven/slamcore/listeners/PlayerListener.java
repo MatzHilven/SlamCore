@@ -140,12 +140,15 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onItemPickup(EntityPickupItemEvent e) {
-
         if (!(e.getEntity() instanceof Player)) return;
 
         Player p = (Player) e.getEntity();
 
         ItemStack item = e.getItem().getItemStack();
+
+        if (item.getType() == Material.AIR) return;
+        if (!item.getType().toString().endsWith("PICKAXE")) return;
+
         if (item.getType() == Material.AIR) {
             if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
                 p.removePotionEffect(PotionEffectType.FAST_DIGGING);
@@ -205,6 +208,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onItemDrop(PlayerDropItemEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+
+        if (item.getType() == Material.AIR) return;
+        if (!item.getType().toString().endsWith("PICKAXE")) return;
 
         Player p = e.getPlayer();
         if (item.getType() == Material.AIR) {
@@ -564,6 +570,17 @@ public class PlayerListener implements Listener {
 
         if (neededExp != 0) {
             if (exp + blockExp >= neededExp) {
+                for (String s : main.getConfig().getStringList("levels." + (level + 1) + ".enchants")) {
+                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(s.split(" ; ")[0].trim().toLowerCase()));
+                    int enchLevel = Integer.parseInt(s.split(" ; ")[1].trim());
+                    if (enchantment == null || level == 0) continue;
+                    meta.addEnchant(enchantment, enchLevel, true);
+                }
+
+                pickaxe = nbtItem.getItem();
+                pickaxe.setItemMeta(meta);
+                nbtItem = new NBTItem(pickaxe);
+
                 nbtItem.setInteger("exp", ((exp + blockExp) - neededExp));
                 nbtItem.setInteger("level", level + 1);
 
@@ -571,6 +588,7 @@ public class PlayerListener implements Listener {
                 main.getConfig().getStringList("levels." + (level + 1) + ".rewards").forEach(cmd -> {
                     Bukkit.dispatchCommand(console, cmd.replace("%player%", p.getName()));
                 });
+
             } else {
                 nbtItem.setInteger("exp", exp + blockExp);
             }
