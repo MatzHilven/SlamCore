@@ -75,7 +75,6 @@ public class PlayerListener implements Listener {
 
         ItemStack item = e.getPlayer().getInventory().getItem(e.getNewSlot());
 
-
         Player p = e.getPlayer();
         if (item == null || item.getType() == Material.AIR) {
             if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
@@ -88,7 +87,8 @@ public class PlayerListener implements Listener {
                 p.removePotionEffect(PotionEffectType.SPEED);
             }
 
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !p.isOp()) {
+
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
@@ -126,7 +126,7 @@ public class PlayerListener implements Listener {
             p.setAllowFlight(true);
             p.setFlying(true);
         } else {
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !(p.isOp()) && !(p.hasPermission("essentials.fly"))) {
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
@@ -156,9 +156,6 @@ public class PlayerListener implements Listener {
 
         ItemStack item = e.getItem().getItemStack();
 
-        if (item.getType() == Material.AIR) return;
-        if (!item.getType().toString().endsWith("PICKAXE")) return;
-
         if (item.getType() == Material.AIR) {
             if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
                 p.removePotionEffect(PotionEffectType.FAST_DIGGING);
@@ -170,12 +167,14 @@ public class PlayerListener implements Listener {
                 p.removePotionEffect(PotionEffectType.SPEED);
             }
 
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !(p.isOp()) && !(p.hasPermission("essentials.fly"))) {
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
             return;
         }
+
+        if (!item.getType().toString().endsWith("PICKAXE")) return;
 
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
@@ -208,7 +207,7 @@ public class PlayerListener implements Listener {
             p.setAllowFlight(true);
             p.setFlying(true);
         } else {
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !(p.isOp()) && !(p.hasPermission("essentials.fly"))) {
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
@@ -217,12 +216,113 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onItemDrop(PlayerDropItemEvent e) {
-        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-
-        if (item.getType() == Material.AIR) return;
-        if (!item.getType().toString().endsWith("PICKAXE")) return;
-
         Player p = e.getPlayer();
+        ItemStack item = p.getInventory().getItemInMainHand();
+
+        if (item.getType() == Material.GUNPOWDER) {
+            NBTItem nbtItem = new NBTItem(p.getInventory().getItemInMainHand());
+
+            if (nbtItem.hasKey("minebomb")) {
+                Item drop = e.getItemDrop();
+
+                drop.setPickupDelay(10000);
+                drop.setCustomNameVisible(true);
+                drop.setCustomName(StringUtils.colorize("&d&l2.5s"));
+
+                new BukkitRunnable() {
+
+                    int count = 50;
+                    int secs;
+                    int ms;
+
+                    Location loc;
+                    World world;
+
+                    @Override
+                    public void run() {
+                        if (count == 0) {
+                            loc = drop.getLocation();
+                            world = loc.getWorld();
+                            world.spawnParticle(Particle.EXPLOSION_HUGE, loc.clone().add(0,1,0), 1);
+                            world.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+                            drop.remove();
+                            Mine mine = Mines.getAPI().getByLocation(e.getItemDrop().getLocation());
+
+                            if (mine == null) {
+                                loc.subtract(0, 2, 0);
+                                mine = Mines.getAPI().getByLocation(loc);
+                            }
+
+                            List<Collection<ItemStack>> dropList = new ArrayList<>();
+                            int radius = 5;
+
+                            int bx = loc.getBlockX();
+                            int by = loc.getBlockY();
+                            int bz = loc.getBlockZ();
+
+                            for (int x = bx - radius; x <= bx + radius; x++) {
+                                for (int y = by - radius; y <= by + radius; y++) {
+                                    for (int z = bz - radius; z <= bz + radius; z++) {
+                                        double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
+                                        if (distance < radius * radius) {
+                                            Block loopBlock = world.getBlockAt(x, y, z);
+
+                                            if (Mines.getAPI().getByLocation(loopBlock.getLocation()) == null) continue;
+                                            if (mine == null) mine = Mines.getAPI().getByLocation(loopBlock.getLocation());
+
+                                            if (loopBlock.getType() != Material.AIR) {
+                                                dropList.add(loopBlock.getDrops());
+                                                setAir(loopBlock.getLocation());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (mine != null) {
+                                mine.setBlocksBroken(mine.getBlocksBroken() + dropList.size());
+                                mine.setBlocksRemaining(mine.getBlocksRemaining() - dropList.size());
+                            }
+
+                            for (ItemStack item : p.getInventory().getContents()) {
+                                if (item == null || item.getType() == Material.AIR) continue;
+
+                                NBTItem nbtItem = new NBTItem(item);
+                                if (nbtItem.hasKey("levelpick")) {
+                                    ItemMeta meta = item.getItemMeta();
+                                    if (meta.hasEnchant(PrisonEnchants.TELEPATHY)) {
+                                        if (meta.hasEnchant(PrisonEnchants.AUTOSMELT)) {
+                                            dropList.forEach(drops -> p.getInventory().addItem(autoSmelt(drops.iterator().next())));
+                                        } else {
+                                            dropList.forEach(drops -> p.getInventory().addItem(drops.iterator().next()));
+                                        }
+                                    } else {
+                                        if (meta.hasEnchant(PrisonEnchants.AUTOSMELT)) {
+                                            dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), autoSmelt(drops.iterator().next())));
+                                        } else {
+                                            dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), drops.iterator().next()));
+                                        }
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                            }
+                            dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), drops.iterator().next()));
+                            cancel();
+                            return;
+                        }
+
+                        secs = Math.floorDiv(count, 20);
+                        ms = count % 20;
+
+                        drop.setCustomName(StringUtils.colorize("&d&l" + secs + "." + ms + "s"));
+                        count--;
+                    }
+                }.runTaskTimer(main, 0L, 1L);
+            }
+            return;
+        }
+
         if (item.getType() == Material.AIR) {
             if (p.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
                 p.removePotionEffect(PotionEffectType.FAST_DIGGING);
@@ -234,12 +334,14 @@ public class PlayerListener implements Listener {
                 p.removePotionEffect(PotionEffectType.SPEED);
             }
 
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !(p.isOp()) && !(p.hasPermission("essentials.fly"))) {
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
             return;
         }
+
+        if (!item.getType().toString().endsWith("PICKAXE")) return;
 
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
@@ -272,107 +374,10 @@ public class PlayerListener implements Listener {
             p.setAllowFlight(true);
             p.setFlying(true);
         } else {
-            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE)) {
+            if (p.isFlying() && !(p.getGameMode() == GameMode.CREATIVE) && !(p.isOp()) && !(p.hasPermission("essentials.fly"))) {
                 p.setAllowFlight(false);
                 p.setFlying(false);
             }
-        }
-
-        NBTItem nbtItem = new NBTItem(e.getItemDrop().getItemStack());
-
-        if (nbtItem.hasKey("minebomb")) {
-            Item drop = e.getItemDrop();
-
-            drop.setPickupDelay(10000);
-            drop.setCustomNameVisible(true);
-            drop.setCustomName(StringUtils.colorize("&d&l2.5s"));
-
-            new BukkitRunnable() {
-
-                int count = 50;
-                int secs;
-                int ms;
-
-                Location loc;
-                World world;
-
-                @Override
-                public void run() {
-                    if (count == 0) {
-                        loc = e.getItemDrop().getLocation();
-                        world.createExplosion(e.getItemDrop().getLocation().clone().add(0,1,0), 0);
-                        drop.remove();
-                        Mine mine = Mines.getAPI().getByLocation(e.getItemDrop().getLocation());
-
-                        if (mine == null) {
-                            loc.clone().subtract(0, 2, 0);
-                            mine = Mines.getAPI().getByLocation(loc);
-                        }
-
-                        List<Collection<ItemStack>> dropList = new ArrayList<>();
-                        int radius = 5;
-
-                        int bx = loc.getBlockX();
-                        int by = loc.getBlockY();
-                        int bz = loc.getBlockZ();
-
-                        for (int x = bx - radius; x <= bx + radius; x++) {
-                            for (int y = by - radius; y <= by + radius; y++) {
-                                for (int z = bz - radius; z <= bz + radius; z++) {
-                                    double distance = ((bx - x) * (bx - x) + ((bz - z) * (bz - z)) + ((by - y) * (by - y)));
-                                    if (distance < radius * radius) {
-                                        Block loopBlock = world.getBlockAt(x, y, z);
-
-                                        if (Mines.getAPI().getByLocation(loopBlock.getLocation()) == null) continue;
-                                        if (mine == null) mine = Mines.getAPI().getByLocation(loopBlock.getLocation());
-
-                                        if (loopBlock.getType() != Material.AIR) {
-                                            dropList.add(loopBlock.getDrops());
-                                            setAir(loopBlock.getLocation());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (mine != null) {
-                            mine.setBlocksBroken(mine.getBlocksBroken() + dropList.size());
-                            mine.setBlocksRemaining(mine.getBlocksRemaining() - dropList.size());
-                        }
-
-                        for (ItemStack item : p.getInventory().getContents()) {
-                            if (item == null || item.getType() == Material.AIR) continue;
-
-                            NBTItem nbtItem = new NBTItem(item);
-                            if (nbtItem.hasKey("levelpick")) {
-                                ItemMeta meta = item.getItemMeta();
-                                if (meta.hasEnchant(PrisonEnchants.TELEPATHY)) {
-                                    if (meta.hasEnchant(PrisonEnchants.AUTOSMELT)) {
-                                        dropList.forEach(drops -> p.getInventory().addItem(autoSmelt(drops.iterator().next())));
-                                    } else {
-                                        dropList.forEach(drops -> p.getInventory().addItem(drops.iterator().next()));
-                                    }
-                                } else {
-                                    if (meta.hasEnchant(PrisonEnchants.AUTOSMELT)) {
-                                        dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), autoSmelt(drops.iterator().next())));
-                                    } else {
-                                        dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), drops.iterator().next()));
-                                    }
-                                }
-                                return;
-                            }
-                        }
-                        dropList.forEach(drops -> world.dropItemNaturally(drop.getLocation(), drops.iterator().next()));
-                        cancel();
-                    }
-
-                    secs = Math.floorDiv(count, 20);
-                    ms = count % 20;
-
-                    drop.setCustomName(StringUtils.colorize("&d&l" + secs + "." + ms + "s"));
-                    count--;
-                }
-            }.runTaskTimer(main, 0L, 1L);
         }
     }
 
